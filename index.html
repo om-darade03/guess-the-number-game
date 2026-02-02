@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Guess The Number Game</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1d2671, #c33764);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .game-box {
+            background: #ffffff;
+            padding: 25px;
+            width: 100%;
+            max-width: 420px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            margin-bottom: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin: 15px 0;
+        }
+
+        button {
+            padding: 10px 15px;
+            font-size: 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .guess-btn {
+            background: #0d6efd;
+            color: #fff;
+        }
+
+        .reset-btn {
+            background: #198754;
+            color: #fff;
+        }
+
+        .reveal-btn {
+            background: #ffc107;
+            display: none;
+        }
+
+        .feedback {
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        .attempts {
+            color: #555;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="game-box">
+    <h1>🎯 Guess The Number</h1>
+    <p>Guess a number between <b>1 and 100</b></p>
+
+    <input type="number" id="guessInput" placeholder="Enter number (1-100)" min="1" max="100">
+
+    <div>
+        <button class="guess-btn" id="guessBtn">Guess</button>
+        <button class="reset-btn" id="resetBtn">Reset</button>
+        <button class="reveal-btn" id="revealBtn">Show Answer</button>
+    </div>
+
+    <div class="feedback" id="feedback"></div>
+    <div class="attempts" id="attempts">Attempts: 0</div>
+</div>
+
+<script>
+    let randomNumber = Math.floor(Math.random() * 100) + 1;
+    let attempts = 0;
+
+    const guessInput = document.getElementById("guessInput");
+    const feedback = document.getElementById("feedback");
+    const attemptsText = document.getElementById("attempts");
+    const revealBtn = document.getElementById("revealBtn");
+
+    document.getElementById("guessBtn").addEventListener("click", guessNumber);
+    document.getElementById("resetBtn").addEventListener("click", resetGame);
+    revealBtn.addEventListener("click", revealAnswer);
+
+    function guessNumber() {
+        const guess = Number(guessInput.value);
+
+        if (!guess || guess < 1 || guess > 100) {
+            feedback.textContent = "❌ Please enter a number between 1 and 100";
+            feedback.style.color = "red";
+            return;
+        }
+
+        attempts++;
+        attemptsText.textContent = `Attempts: ${attempts}`;
+
+        if (guess === randomNumber) {
+            feedback.textContent = `🎉 Correct! You guessed it in ${attempts} attempts`;
+            feedback.style.color = "green";
+            guessInput.disabled = true;
+            revealBtn.style.display = "none";
+        } else {
+            feedback.textContent = guess < randomNumber ? "⬆ Too Low!" : "⬇ Too High!";
+            feedback.style.color = "orange";
+            revealBtn.style.display = "inline-block";
+        }
+    }
+
+    function revealAnswer() {
+        feedback.textContent = `😢 The correct number was ${randomNumber}`;
+        feedback.style.color = "blue";
+        guessInput.disabled = true;
+        revealBtn.style.display = "none";
+    }
+
+    function resetGame() {
+        randomNumber = Math.floor(Math.random() * 100) + 1;
+        attempts = 0;
+        guessInput.value = "";
+        guessInput.disabled = false;
+        feedback.textContent = "";
+        attemptsText.textContent = "Attempts: 0";
+        revealBtn.style.display = "none";
+    }
+</script>
+
+</body>
+</html>
