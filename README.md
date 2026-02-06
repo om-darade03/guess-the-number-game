@@ -30,7 +30,7 @@ or by using **GitHub Pages** after enabling it in repository settings.
 
 ## 👨‍💻 Author
 **Om Darade**
-GitHub: https://github.com/om-03-005
+GitHub: https://github.com/om-darade03
 
 ---
 
